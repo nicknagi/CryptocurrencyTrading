@@ -1,17 +1,13 @@
-import os
+import math
+import pickle
+from datetime import datetime
+
 import numpy as np
 import pandas as pd
-import pickle
-import quandl
-import matplotlib.pyplot as plt
-import matplotlib.dates as mdate
-import time
-from datetime import datetime
-from datetime import date
-
-import plotly.offline as py
 import plotly.graph_objs as go
-import plotly.figure_factory as ff
+import plotly.offline as py
+import quandl
+
 
 #Helper Functions
 def get_quandl_data(quandl_id):
@@ -130,6 +126,31 @@ def correlation_heatmap(df, title, absolute_bounds=True):
     py.plot(fig, filename='heatmap.html')
 
 
+def simulate(period, crypto_prices_df):
+    date = combined_df.index[0]
+    date += pd.DateOffset(period)
+    for x in range(0, math.floor(int(len(combined_df.index) / period))):
+        for pair in altcoinsPair:
+            print('\n\n\n' + pair + ':')
+
+            # do all calculations and make decision (Period)
+            try:
+                # Do calculations and make decsions here
+                continue
+            except (KeyError, IndexError):
+                continue
+
+
+def simulateBuy(amount, cur_pair, date, combined_df):
+    print('Bought' + str(cur_pair))
+
+
+def simulateSell(amount, cur_pair, date, combined_df):
+    print('Sold' + str(cur_pair))
+
+
+def getPriceAtDate(date, df, curr_pair):
+    return df.loc[date, curr_pair]
 #-----------------MAIN-----------------------------------
 # # Pull Kraken BTC price exchange data
 # btc_usd_price_kraken = get_quandl_data('BCHARTS/KRAKENUSD')
@@ -181,6 +202,7 @@ cryptoCurrencyNumber = input('Enter the top n currencies to be used in analysis:
 #Delete the unwanted columns again. Only keep the top ones entered by the user
 all_tickers_df = all_tickers_df.iloc[:,0:int(cryptoCurrencyNumber)]
 
+
 #Generate a list of altcoin pairs
 altcoinsPair = list(all_tickers_df.columns.values)
 #print the pairs being used
@@ -205,6 +227,8 @@ for altcoin in altcoinsPair:
 # Merge USD price of each altcoin into single dataframe
 #Merge all altcoins in one dataset
 combined_df = merge_dfs_on_column(list(altcoin_data.values()), list(altcoin_data.keys()), 'weightedAverage')
+# print(combined_df)
+simulate(5, combined_df)
 #generate a correleation matrix
 print(combined_df.pct_change().corr(method='pearson'))
 #Generate a heatmap for the correlation matrix for visualization
