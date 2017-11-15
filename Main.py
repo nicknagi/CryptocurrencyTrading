@@ -128,18 +128,29 @@ def correlation_heatmap(df, title, absolute_bounds=True):
 
 def simulate(period, crypto_prices_df):
     date = combined_df.index[0]
-    date += pd.DateOffset(period)
+    # Use the proper naming for the function variable atleast!!
+
+    # print(combined_df.pct_change())
+
+
+    print(combined_df.loc[date, 'BTC_ETH'])
+
+    pctChange = {}
     for x in range(0, math.floor(int(len(combined_df.index) / period))):
         for pair in altcoinsPair:
-            print('\n\n\n' + pair + ':')
+            #print('\n\n\n' + pair + ':')
 
             # do all calculations and make decision (Period)
+
             try:
+                # Maybe have a dict for old and new values and calculate pctChange from there
+                #Then make reasoned decisions
                 # Do calculations and make decsions here
                 continue
             except (KeyError, IndexError):
                 continue
-
+    # Is this fine ????
+    date += pd.DateOffset(period)
 
 def simulateBuy(amount, cur_pair, date, combined_df):
     print('Bought' + str(cur_pair))
